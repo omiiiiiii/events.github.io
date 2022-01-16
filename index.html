@@ -129,18 +129,32 @@
             function getAndUpdate() {
                 tit = document.getElementById('title').value;
                 disc = document.getElementById('discription').value;
-                console.log("updatingList")
-
                 if (localStorage.getItem('itemsJson') == null) {
                     itemJsonArray = [];
                     itemJsonArray.push([tit, disc])
                     localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+                    document.getElementById('title').value="";
+                    document.getElementById('discription').value="";
                 }
                 else {
                     itemJsonArraystr = localStorage.getItem('itemsJson')
                     itemJsonArray = JSON.parse(itemJsonArraystr);
+                    var count=0;
+                    itemJsonArray.forEach((element)=>{
+                        if(element[0]==tit){
+                            count=1;
+                        }
+                    });
+                    if(count==1){
+                        alert("Duplicate entry is not allowed in the list");
+                        document.getElementById('title').value="";
+                        document.getElementById('discription').value="";
+                    }
+                    else{
                     itemJsonArray.push([tit, disc]);
                     localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+                    document.getElementById('title').value="";
+                    document.getElementById('discription').value="";}
                 }
                 update()
             }
